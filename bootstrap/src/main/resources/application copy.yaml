@@ -110,12 +110,11 @@ ai:
         chat: /compatible-mode/v1/chat/completions
         rerank: /api/v1/services/rerank/text-rerank/text-rerank
     siliconflow:
-      url: http://192.168.88.101:8509
-      api-key: 1
+      url: https://api.siliconflow.cn
+      api-key: sk-avczumdatkfpidkjcksqrjfiqkopifiifwtuphbjqaovlmeh
       endpoints:
         chat: /v1/chat/completions
         embedding: /v1/embeddings
-    
 
   selection:
     failure-threshold: 2
@@ -142,37 +141,35 @@ ai:
         model: Pro/zai-org/GLM-4.7
         supports-thinking: true
         priority: 0
-
+      - id: qwen3-local
+        provider: ollama
+        model: qwen3:8b-fp16
+        priority: 2
 
   embedding:
-    default-model: bge-large-zh-v1.5-local
+    default-model: qwen-emb-8b
     candidates:
-      - id: bge-large-zh-v1.5-local
+      - id: qwen-emb-8b
         provider: siliconflow
-        model: bge-large-zh-v1.5-local
+        model: Qwen/Qwen3-Embedding-8B
         dimension: ${rag.default.dimension}
         priority: 1
-      - id: Qwen3-Embedding-4B
-        provider: siliconflow
-        model: Qwen3-Embedding-4B
+      - id: qwen-emb-local
+        provider: ollama
+        model: qwen3-embedding:8b-fp16
         dimension: ${rag.default.dimension}
-        priority: 1
-
+        priority: 2
 
   rerank:
-    default-model: bge-reranker-large-local
+    default-model: qwen3-rerank
     candidates:
       - id: qwen3-rerank
         provider: bailian
         model: qwen3-rerank
         priority: 1
-      - id: bge-reranker-large-local
-        provider: siliconflow
-        model: bge-reranker-large-local
-        priority: 100
-      - id: Qwen3-Reranker-4B
-        provider: siliconflow
-        model: Qwen3-Reranker-4B
+      - id: rerank-noop
+        provider: noop
+        model: noop
         priority: 100
 
 rustfs:
